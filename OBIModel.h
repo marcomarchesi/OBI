@@ -22,6 +22,7 @@ public:
 	Matrix4f& GetGLFromMatrix4f();
 
 	void SetTex(const char* filename);
+	void SetTexFromCamera(Mat& img);
 	Mat GetTex();
 
 	void LoadModel(const char* filename, const char* tex_filename);

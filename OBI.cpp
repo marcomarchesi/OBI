@@ -10,7 +10,6 @@
 
 OBIModel* cube_model = new OBIModel();
 OBIModel* monkey_model = new OBIModel();
-
 /********************/
 
 void Render()
@@ -22,12 +21,10 @@ void Render()
 
 	// render the shoe and rotate/translate/scale
 	monkey_model->Rotate(Factor/2, Factor, Factor/2);
-	monkey_model->Scale(1.0f,1.0f,1.0f);
 	monkey_model->Translate(0.0f, 0.0f, 3.5f);
 	monkey_model->Draw();
 
-	cube_model->Rotate(Factor / 3, Factor, Factor /3);
-	cube_model->Scale(1.0f, 1.0f, 1.0f);
+	cube_model->Rotate(0.0f, Factor/10, 0.0f);
 	cube_model->Translate(1.0f, 0.0f, 3.5f);
 	cube_model->Draw();
 		
@@ -108,8 +105,9 @@ int main(int argc, char **argv)
 	monkey_model->LoadModel("monkey.obj", "uv_monkey.png");
 	monkey_model->Compile("m_vertex_shader.glsl","m_texture_fs.glsl");
 
-	cube_model->LoadModel("monkey.obj", "uv_monkey.png");
+	cube_model->LoadModel("cube.obj", "uv_cube.png");
 	cube_model->Compile("m_vertex_shader.glsl", "m_texture_fs.glsl");
+
 	// start GUI loop
 	glutMainLoop();
 

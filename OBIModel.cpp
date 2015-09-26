@@ -91,16 +91,12 @@ Matrix4f& OBIModel::GetGLFromMatrix4f()
 	WTransform = TranslationTransform * RotateTransform * ScaleTransform;	//apply transformations
 	WPTransform = PerspectiveTransform * WTransform;		// apply perspective transformation
 
-
 	return WPTransform;
-
 }
 
 void OBIModel::Draw()
 {
-	glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, (const GLfloat*)GetGLFromMatrix4f());
-
-
+	
 	glUseProgram(ShaderProgram);
 
 	glActiveTexture(GL_TEXTURE0);
@@ -113,7 +109,10 @@ void OBIModel::Draw()
 	glDrawElements(GL_TRIANGLES, NumFaces * 3, GL_UNSIGNED_INT, 0);
 	// unbind the VAO
 	glBindVertexArray(0);
+	glActiveTexture(0);
 	//glUseProgram(0);  NOT WORKING IN THIS WAY
+
+	glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, (const GLfloat*)GetGLFromMatrix4f());
 }
 
 void OBIModel::SwitchWireframeFilled()
@@ -134,6 +133,12 @@ void OBIModel::SetTex(const char* filename)
 {
 	tex_image = imread(filename, 1);
 	flip(tex_image, tex_image, 0);
+}
+
+void OBIModel::SetTexFromCamera(Mat& img)
+{
+	img.copyTo(tex_image);
+	/*flip(tex_image, tex_image, 1);*/
 }
 
 
@@ -279,7 +284,7 @@ void OBIModel::Compile(const char* vs_filename,const char* fs_filename) {
 	gVert = glGetAttribLocation(ShaderProgram, "vert");
 	gUV = glGetUniformLocation(ShaderProgram, "tex");
 
-	glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, GetGLFromMatrix4f());
+	glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, (const GLfloat*)GetGLFromMatrix4f());
 }
 
 
